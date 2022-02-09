@@ -26,6 +26,22 @@ module Types
       Author.where(id: id).first
     end
 
+    field :authors, [Types::AuthorType ], null: false
+
+    def authors 
+        Author.all
+    end
+
+    field :authors_by_last_name, [Types::AuthorType ], null: false do
+      description "Returns authors that contain the given name" 
+      argument :name, String, required: true
+    end
+
+    def authors_by_last_name(name:)
+      Author.where('last_name LIKE ?', "%#{name}%")
+    end
+
+
   end
 end
 
